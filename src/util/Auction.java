@@ -26,7 +26,7 @@ public class Auction implements Serializable {
 	/** code status relating to a auction creation **/
 	public static final int AUCTION_CREATED = 0;
 	
-	/** status code relationg to a auction running **/
+	/** status code relating to a auction running **/
 	public static final int AUCTION_RUNNING = 1;
 	
 	/** status code relating to a auction ending **/
@@ -94,7 +94,8 @@ public class Auction implements Serializable {
 	public int hashCode() {
 		return this.toString().hashCode();
 	}
-
+	
+	/** getters and setters **/
 	public String get_auctionID() {
 		return _auctionID;
 	}
