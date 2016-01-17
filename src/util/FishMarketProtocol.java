@@ -7,10 +7,11 @@ public class FishMarketProtocol extends ACLMessage {
 	public static final int to_announce = ACLMessage.CFP;
 	public static final int to_attribute = ACLMessage.ACCEPT_PROPOSAL;
 	public static final int to_give = ACLMessage.AGREE;
-	public static final int rep_bid = ACLMessage.INFORM;
+	public static final int answer_bid = ACLMessage.INFORM;
 	public static final int to_bid = ACLMessage.PROPOSE;
 	public static final int to_pay = ACLMessage.CONFIRM;
 	public static final int to_subscribe = ACLMessage.SUBSCRIBE;
+	public static final int answer_subscribe = ACLMessage.INFORM;
 	public static final int get_auction = 200;
 	public static final int buyer_subscribed = 201;
 	
@@ -20,6 +21,10 @@ public class FishMarketProtocol extends ACLMessage {
 	
 	public FishMarketProtocol(String message){
 		this._message = message;
+	}
+	
+	public FishMarketProtocol(){
+		
 	}
 
 	public String get_message() {

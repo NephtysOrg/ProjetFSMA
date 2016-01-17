@@ -28,15 +28,13 @@ public class MarketBehavior extends CyclicBehaviour {
 		message = (FishMarketProtocol) this._marketAgent.receive();
 		AID agentSender = null;
 		boolean subscriber_founded;
-		int k;
-		
 		
 		
 		if(message != null){
 			_marketAgent.MARKET_LOGGER.log(Level.SEVERE,"Reception d'un message de la part d'un agent");
 			try{
 				/** Retrieving message content **/
-				agentSender = message.getSender();
+				agentSender = message.getSender(); /* Can be a buyer or a seller */
 				auction = new Auction();
 				message_content_str = message.get_message();
 				auction = (Auction)message.getContentObject();
@@ -49,26 +47,44 @@ public class MarketBehavior extends CyclicBehaviour {
 				case FishMarketProtocol.to_subscribe:
 					_marketAgent.MARKET_LOGGER.log(Level.SEVERE,"Traitement message to_subscribe");
 					
-					
+					/** Receiving message from a buyer case **/
 					if(message_content_str.equals(FishMarketProtocol.BUYER)){
+						/** Answer subscription for the buyer who attempt to make the subscription**/
+						FishMarketProtocol buyer_subscription = new FishMarketProtocol();
+						buyer_subscription.setPerformative(FishMarketProtocol.answer_subscribe);
+						buyer_subscription.addReceiver(agentSender);
+						
 						if(!_marketAgent.isSubscriber(auction.get_auctionID(), agentSender)){
 							_marketAgent.addSubscribers(auction.get_auctionID(), agentSender);
-							_marketAgent.MARKET_LOGGER.log(Level.INFO,"L'abonnment d'un agent vient d'être réalisé");
+							_marketAgent.MARKET_LOGGER.log(Level.INFO,"L'abonnement d'un agent buyer à une offre vient d'être réalisé");
+							
+							/** answer sending //OK **/
+							buyer_subscription.setContent("Abonnement OK pour l'enchère "+ auction.toString());
+							_marketAgent.send(buyer_subscription);
+							
 						}else{
-							_marketAgent.MARKET_LOGGER.log(Level.INFO,"L'agent buyer est deja abonné");
+							_marketAgent.MARKET_LOGGER.log(Level.WARNING,"L'agent buyer est deja abonné à cette offre");
+							/** answer sending //NOK **/
+							buyer_subscription.setContent("Abonnement NOK pour l'enchère "+ auction.toString());
+							_marketAgent.send(buyer_subscription);
 						}
 					}
 					
+					/** Receiving message from a seller case **/
 					if(message_content_str.equals(FishMarketProtocol.SELLER)){
-						
+						try{
+							if(!_marketAgent.isRegisteredAuction(auction.get_auctionID())){
+								_marketAgent.auctionRegistration(auction,agentSender);
+								_marketAgent.MARKET_LOGGER.log(Level.INFO,"L'agent seller "+agentSender.getName()+" vient de publier l'enchère "+auction.toString());
+								
+							}else{
+								_marketAgent.MARKET_LOGGER.log(Level.WARNING,"Un agent seller "+agentSender.getName()+" à tenté de publier une enchère déjà existante");
+							}
+						}catch(Exception e){
+							e.printStackTrace();
+						}	
 					}
 						
-					
-					
-				
-					
-				
-					
 					
 					break;
 				case FishMarketProtocol.buyer_subscribed:
