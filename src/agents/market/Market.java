@@ -7,6 +7,7 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import agents.market.behaviors.auctionCreation.MarketFSMBehaviour;
 import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.Behaviour;
@@ -59,7 +60,7 @@ public class Market extends Agent {
 		}
 		
 		//adding behaviours
-		this.addBehaviour(new MarketBehavior(this));
+		this.addBehaviour(new MarketFSMBehaviour(this));
 		
 	}
 

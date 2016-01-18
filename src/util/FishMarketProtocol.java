@@ -2,36 +2,30 @@ package util;
 
 import jade.lang.acl.ACLMessage;
 
-public class FishMarketProtocol extends ACLMessage {
+public class FishMarketProtocol  {
 	
-	public static final int to_announce = ACLMessage.CFP;
-	public static final int to_attribute = ACLMessage.ACCEPT_PROPOSAL;
-	public static final int to_give = ACLMessage.AGREE;
-	public static final int answer_bid = ACLMessage.INFORM;
-	public static final int to_bid = ACLMessage.PROPOSE;
-	public static final int to_pay = ACLMessage.CONFIRM;
-	public static final int to_subscribe = ACLMessage.SUBSCRIBE;
-	public static final int answer_subscribe = ACLMessage.INFORM;
-	public static final int get_auction = 200;
-	public static final int buyer_subscribed = 201;
-	
-	public static final String BUYER = "buyer";
-	public static final String SELLER = "seller";
-	private String _message = null;
-	
-	public FishMarketProtocol(String message){
-		this._message = message;
+	public static class Performatives{
+		public static final int TO_CREATE = ACLMessage.REQUEST;
+		public static final int TO_ANNOUNCE = ACLMessage.CFP;
+		public static final int TO_ATTRIBUTE = ACLMessage.ACCEPT_PROPOSAL;
+		public static final int TO_GIVE = ACLMessage.AGREE;
+		public static final int REP_BID = ACLMessage.INFORM;
+		public static final int TO_BID = ACLMessage.PROPOSE;
+		public static final int TO_PAY = ACLMessage.CONFIRM;
+		public static final int TO_SUBSCRIBE = ACLMessage.SUBSCRIBE;
+		public static final int AUCTION_OVER = ACLMessage.CANCEL;
+		public static final int TO_CANCEL = ACLMessage.FAILURE;
+		public static final int TO_WITHDRAW = ACLMessage.REFUSE;
+		public static final int TO_REQUEST = ACLMessage.REQUEST;
+		public static final int TO_PROVIDE = ACLMessage.INFORM;
 	}
 	
-	public FishMarketProtocol(){
-		
+	public static class steps{
+		public static final String STEP_AUCTION_CREATION = 
+				FishMarketProtocol.steps.class.getName()+":STEP_AUCTION_CREATION";
+		public static final String STEP_BIDDERS_SUBSCRIPTION =
+				FishMarketProtocol.steps.class.getName()+":STEP_BIDDERS_SUBSCRIPTION";
+		public static final String STEP_AUCTION_IN_PROGRESS =
+				FishMarketProtocol.steps.class.getName()+":STEP_AUCTION_IN_PROGRESS";		
 	}
-
-	public String get_message() {
-		return _message;
-	}
-
-	public void set_message(String _message) {
-		this._message = _message;
-	} 
 }
