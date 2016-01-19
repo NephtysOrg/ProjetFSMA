@@ -1,5 +1,4 @@
 package util;
-
 import jade.lang.acl.ACLMessage;
 
 public class FishMarketProtocol  {
