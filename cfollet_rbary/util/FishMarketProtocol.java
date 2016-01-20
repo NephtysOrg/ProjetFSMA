@@ -17,6 +17,8 @@ public class FishMarketProtocol  {
 		public static final int TO_WITHDRAW = ACLMessage.REFUSE;
 		public static final int TO_REQUEST = ACLMessage.REQUEST;
 		public static final int TO_PROVIDE = ACLMessage.INFORM;
+		public static final int TO_ACCEPT = ACLMessage.CONFIRM;
+		public static final int TO_REFUSE = ACLMessage.REFUSE;
 	}
 	
 	public static class steps{
