@@ -79,7 +79,7 @@ public class BidderGui {
 	this.panel1.setLayout(new BoxLayout(this.panel1, BoxLayout.LINE_AXIS));
 	this.panel1.add(this.subscriptionPane);
 	this.panel1.add(this.auctionPane);
-	this.currentFrame = new JFrame("Agent parieur : " + this._bidderAgent.getLocalName());
+	this.currentFrame = new JFrame("Agent Preneur : " + this._bidderAgent.getLocalName());
 	this.currentFrame.setContentPane(this.panel1);
 	this.currentFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	this.currentFrame.pack();
@@ -330,7 +330,7 @@ public class BidderGui {
 	// this.bidListLabel.setText(auction.getAuctionName());
 	this.currentAuctionSupply.setText("[" + auction.getAuctionName() + "]");
 	this.currentAuctionReference.setText("[" + auction.getID() + "]");
-	this.updateRunningAuctionStatus("STARTING");
+	this.updateRunningAuctionStatus("Démarrage");
 	// Remove focus from list element
 	this.auctionTable.clearSelection();
     }

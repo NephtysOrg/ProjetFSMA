@@ -45,8 +45,8 @@ public class SellerGui extends JFrame implements ActionListener {
     private JButton createButton;
     private JButton startButton;
     private JButton cancelButton;
-    public static final int DEFAULT_WIDTH = 600;
-    public static final int DEFAULT_HEIGHT = 350;
+    public static final int DEFAULT_WIDTH = 700;
+    public static final int DEFAULT_HEIGHT = 450;
     private static final String CREATE_BUTTON_ACTION_COMMAND = "CREATE_BUTTON_ACTION_COMMAND";
     private static final String CANCEL_BUTTON_ACTION_COMMAND = "CANCEL_BUTTON_ACTION_COMMAND";
     private static final String START_BUTTON_ACTION_COMMAND = "START_BUTTON_ACTION_COMMAND";
@@ -57,7 +57,7 @@ public class SellerGui extends JFrame implements ActionListener {
 	this.instantianteWidgets();
 	this.addListeners();
 	this.assemble();
-	this.setTitle("Agent vendeur : " + this.myAgent.getAID().getLocalName());
+	this.setTitle("Agent Vendeur : " + this.myAgent.getAID().getLocalName());
 	this.setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
 	this.setLocationRelativeTo(null);
 	this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -200,7 +200,7 @@ public class SellerGui extends JFrame implements ActionListener {
 	this.cancelButton.setEnabled(isCreated);
 	this.startButton.setEnabled(false); // never before notifyNewSubscriber
 	if (isCreated) {
-	    this.messageLabel.setText("Enchère crée! En attente d'abonnés...");
+	    this.messageLabel.setText("Enchère créée! En attente d'abonnés...");
 	}
     }
 
@@ -219,7 +219,7 @@ public class SellerGui extends JFrame implements ActionListener {
 		0, (int) this.myAgent.getBidWaitingDuration() * 10, (int) this.myAgent.getBidWaitingDuration() / 10));
 	this.subscriberCountSpinner = new JSpinner(new SpinnerNumberModel(0, 0, 100, 1));
 	this.subscriberCountSpinner.setEnabled(false);
-	this.fishSupplyNameTextField = new JTextField("Vente de poisson");
+	this.fishSupplyNameTextField = new JTextField("Lot de Cabillaud");
 	this.fishSupplyNameTextField.requestFocus(true);
 	this.currentAnnounceTable = new JTable(new SellerTableModel());
 	this.announceHistoryTable = new JTable(new SellerTableModel());
@@ -237,7 +237,7 @@ public class SellerGui extends JFrame implements ActionListener {
 	this.maxPriceSpinner.setEnabled(false);
 	this.cancelButton.setEnabled(false);
 	this.startButton.setEnabled(false);
-	this.messageLabel.setText("L'enchère a démarré !");
+	this.messageLabel.setText("L'enchère viens de démarrer !");
     }
 
     public void notifyAuctionCancelled() {

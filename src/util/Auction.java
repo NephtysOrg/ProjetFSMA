@@ -9,18 +9,11 @@ public class Auction implements Serializable {
     private int status;
     private String auctionName = "";
     private String winnerName = "";
-    public static final int STATUS_CREATED;
-    public static final int STATUS_RUNNING;
-    public static final int STATUS_OVER;
-    public static final int STATUS_CANCELLED;
+    public static final int STATUS_CREATED = 0;
+    public static final int STATUS_RUNNING = 1;
+    public static final int STATUS_OVER = 2;
+    public static final int STATUS_CANCELLED = 3;
 
-    static {
-	int start = -1;
-	STATUS_CREATED = ++start;
-	STATUS_RUNNING = ++start;
-	STATUS_OVER = ++start;
-	STATUS_CANCELLED = ++start;
-    }
 
     public Auction(String auctionID) {
 	this.auctionID = auctionID;
@@ -70,15 +63,15 @@ public class Auction implements Serializable {
     }
 
     public static String printStatus(int status) {
-	String statusString = "UNKOWN";
+	String statusString = "Inconnu";
 	if (status == Auction.STATUS_CREATED) {
-	    statusString = "CREATED";
+	    statusString = "Créée";
 	} else if (status == Auction.STATUS_RUNNING) {
-	    statusString = "RUNNING";
+	    statusString = "En cours...";
 	} else if (status == Auction.STATUS_OVER) {
-	    statusString = "OVER";
+	    statusString = "Terminée";
 	} else if (status == Auction.STATUS_CANCELLED) {
-	    statusString = "CANCELLED";
+	    statusString = "Annulée";
 	}
 	return statusString;
     }
