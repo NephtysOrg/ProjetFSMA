@@ -53,7 +53,7 @@ public class BidderGui {
     private JLabel currentAuctionStatus;
     private JCheckBox autoBidCheckBox;
     private JTextField maximumPriceTextField;
-    private static String AUTO_BID_MAX_PRICE_NOT_SET = "Please set a maximum price";
+    private static String AUTO_BID_MAX_PRICE_NOT_SET = "Entrez un prix maximum";
     private JFrame currentFrame;
     private DefaultListModel<String> bidListModel;
     private AuctionTableModel auctionTableModel;
@@ -79,7 +79,7 @@ public class BidderGui {
 	this.panel1.setLayout(new BoxLayout(this.panel1, BoxLayout.LINE_AXIS));
 	this.panel1.add(this.subscriptionPane);
 	this.panel1.add(this.auctionPane);
-	this.currentFrame = new JFrame("Bidder agent : " + this._bidderAgent.getLocalName());
+	this.currentFrame = new JFrame("Agent parieur : " + this._bidderAgent.getLocalName());
 	this.currentFrame.setContentPane(this.panel1);
 	this.currentFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	this.currentFrame.pack();
@@ -95,17 +95,17 @@ public class BidderGui {
 	this.subscriptionPane = new JPanel();
 	this.subscriptionPane.setLayout(new BorderLayout(10, 10));
 	this.subscriptionPane.setPreferredSize(new Dimension(PANE_WIDTH, PANE_HEIGHT));
-	this.subscriptionPaneTitle = new JLabel("Pick an auction");
+	this.subscriptionPaneTitle = new JLabel("Choisir une enchère");
 	this.subscriptionPane.add(this.subscriptionPaneTitle, BorderLayout.PAGE_START);
 	this.auctionTableModel = new AuctionTableModel();
 	this.auctionTable = new JTable(this.auctionTableModel);
 	this.subscriptionPane.add(new JScrollPane(this.auctionTable), BorderLayout.CENTER);
 	JPanel buttonsPanel = new JPanel();
 	buttonsPanel.setLayout(new GridLayout(2, 1));
-	this.subscribeButton = new JButton("Subscribe");
+	this.subscribeButton = new JButton("S'abonner");
 	this.subscribeButton.setEnabled(false);
 	buttonsPanel.add(this.subscribeButton);
-	this.refreshButton = new JButton("Refresh");
+	this.refreshButton = new JButton("Rafraichir");
 	buttonsPanel.add(this.refreshButton);
 	this.subscriptionPane.add(buttonsPanel, BorderLayout.PAGE_END);
     }
@@ -114,7 +114,7 @@ public class BidderGui {
 	this.auctionPane = new JPanel();
 	this.auctionPane.setLayout(new BoxLayout(this.auctionPane, BoxLayout.PAGE_AXIS));
 	this.auctionPane.setPreferredSize(new Dimension(2 * PANE_WIDTH, PANE_HEIGHT));
-	this.bidListLabel = new JLabel("Running auction");
+	this.bidListLabel = new JLabel("Enchère(s) en cours");
 	this.auctionPane.add(this.bidListLabel);
 	JPanel currentAuctionStatus = new JPanel();
 	currentAuctionStatus.setLayout(new FlowLayout(FlowLayout.CENTER));
@@ -134,18 +134,18 @@ public class BidderGui {
 	this.auctionPane.add(listScroll);
 	JPanel bidPane = new JPanel();
 	bidPane.setLayout(new GridLayout(1, 3));
-	this.autoBidCheckBox = new JCheckBox("Auto-bid");
+	this.autoBidCheckBox = new JCheckBox("Mode Auto");
 	bidPane.add(this.autoBidCheckBox);
 	this.maximumPriceTextField = new JTextField("800");
 	bidPane.add(this.maximumPriceTextField);
-	this.bidButton = new JButton("Bid");
+	this.bidButton = new JButton("Miser");
 	bidPane.add(this.bidButton);
 	this.auctionPane.add(bidPane);
     }
 
     @SuppressWarnings("serial")
     private static class AuctionTableModel extends AbstractTableModel {
-	private final String[] columnNames = { "Product", "Price" };
+	private final String[] columnNames = { "Produit", "Prix" };
 	private List<Auction> auctions;
 
 	public AuctionTableModel() {

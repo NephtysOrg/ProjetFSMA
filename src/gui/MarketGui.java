@@ -28,7 +28,7 @@ public class MarketGui extends JFrame {
 	JScrollPane scrollPane = new JScrollPane(this.tableView);
 	this.tableView.setFillsViewportHeight(true);
 	// This frame
-	this.setTitle("Market agent: " + this.myAgent.getAID().getLocalName());
+	this.setTitle("Agent marché : " + this.myAgent.getAID().getLocalName());
 	this.setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
 	this.setLocationRelativeTo(null);
 	this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -42,8 +42,8 @@ public class MarketGui extends JFrame {
     private static class MarketTableModel extends AbstractTableModel {
 	private static final long serialVersionUID = -216459483509477696L;
 	private Market myAgent;
-	private static final String[] COLUMN_NAMES = new String[] { "Offer", "Seller", "# Suscribers", "Current price",
-		"Status", "Winner" };
+	private static final String[] COLUMN_NAMES = new String[] { "Vendeur", "Parieur", "# Abonnés", "Prix courant",
+		"Statut", "Gagnant" };
 
 	public MarketTableModel(Market myAgent) {
 	    this.myAgent = myAgent;
