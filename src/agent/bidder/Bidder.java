@@ -26,7 +26,7 @@ public class Bidder extends Agent {
     private FSMBehaviour _auctionProgressFSM = null;
     private BidderGui _bidderView;
     private float _maxPrice;
-    private static final String NO_MARKET_AVAILABLE = "Market agent couldn't be located.";
+    private static final String NO_MARKET_AVAILABLE = "Agent marché introuvable.";
     private float _biddingPrice;
     private boolean _withinBiddingTimeFrame = false;
     private boolean _answerBid = false;

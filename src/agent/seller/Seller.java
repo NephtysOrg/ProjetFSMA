@@ -171,7 +171,7 @@ public class Seller extends Agent {
 
     public void notifyMarketNotFound() {
 	this.createCommandReceived = false;
-	this.myView.displayMessage("Market agent not found :_(");
+	this.myView.displayMessage("Agent marché introuvable.");
     }
 
     public void notifyAuctionCreated() {
