@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Fondement des Systèmes Multi-Agent : Rapport de Projet">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Fondement des Systèmes Multi-Agent</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/NephtysOrg/ProjetFSMA">View on GitHub</a>
+
+          <h1 id="project_title">Fondement des Systèmes Multi-Agent</h1>
+          <h2 id="project_tagline">Rapport de Projet</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/NephtysOrg/ProjetFSMA/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/NephtysOrg/ProjetFSMA/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
+<a id="rapport-de-projet--fondements-des-systèmes-multi-agent" class="anchor" href="#rapport-de-projet--fondements-des-syst%C3%A8mes-multi-agent" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Rapport de Projet : Fondements des Systèmes Multi-Agent</h1>
+
+<p>Ce dossier met en exergue l'implémentation du protocole d'enchère au poisson
+(FishMarket) étudié en cours. Le code source dans son état actuel implémente la version du protocole la plus aboutie qui est la suivante : "Plusieurs enchères, un vendeur et un nombre quelconque de preneurs par enchère". Nous commencerons dans ce dossier par presenter l'architecture du programme, ensuite viendra une partie qui expliquera les directives d'exécution du programme et enfin une spécification du comportement des agents.</p>
+
+<h3>
+<a id="architecture-du-programmearchitecture" class="anchor" href="#architecture-du-programmearchitecture" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Architecture du programme[Architecture]</h3>
+
+<p>Ce projet à été developpé sous Eclipse. Il est constitué de manière abstraite par trois paquetages distincts (Voir schema ci dessous).</p>
+
+<pre><code>ProjetFSMA
+    |src-|
+    |     |agent-|
+    |     |       |market-|
+    |     |       |       |Market.java
+    |     |       |       |behaviours-|
+    |     |       |       |           |-MarketFSMBehaviourAuctionCreation.java
+    |     |       |       |           |-MarketFSMBehaviourAuctionProgress.java
+    |     |       |       |            |-MarketFSMBehaviourHandshake.java
+    |     |       |
+    |     |       |bidder-|
+    |     |       |       |-Bidder.java
+    |     |       |       |-behaviours-|
+    |     |       |       |            |-BidderFSMBehaviourAuctionProgress.java
+    |     |       |       |            |-BidderFSMBehaviourHandshake.java
+    |     |       |                
+    |     |       |seller-|
+    |     |       |       |-Seller.java
+    |     |       |       |-behaviours-|
+    |     |       |       |            |-SellerFSMBehaviourAuctionCreation.java
+    |     |       |       |            |-SellerFSMBehaviourAuctionProgress.java
+    |     |               
+    |     |-gui---|
+    |     |       |-BidderGui.java
+    |     |       |-MarketGui.java
+    |     |       |-SellerGui.java
+    |     | 
+    |     |-util--|
+    |     |       |-Auction.java  
+    |     |       |-FishMarketProtocol.java
+    |
+    |-lib-|
+    |     |-commons-codec-1.3.jar
+    |     |-jade.jar
+
+
+</code></pre>
+
+<h4>
+<a id="le-package-util" class="anchor" href="#le-package-util" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Le package "util"</h4>
+
+<p>Ce package comprend une répresentation de la notion d'enchère dans le sens propre du terme par la classe <code>Auction.java</code> et celle-ci implémente l'interface <code>Serializable</code>. 
+La classe <code>FishMarketProtocol</code> est constituée de l'ensemble de toutes les définitions de messages du protocole FishMarket nécessaires pour faire communiquer les agents. Nous avons rajouté des définitions de messages supplémentaires à l'ensemble des messages fournis au préalable dans l'énoncé.
+Nous avons également défini à travers cette classe trois étapes distictes du déroulement du protocole à savoir: </p>
+
+<ul>
+<li>La création d'une enchère par un vendeur <code>STEP_AUCTION_CREATION</code>
+</li>
+<li>L'abonnement d'un preneur à une enchère <code>STEP_BIDDERS_SUBSCRIPTION</code>
+(Handshake)</li>
+<li>Le déroulement d'une enchère <code>STEP_AUCTION_IN_PROGRESS</code>
+</li>
+</ul>
+
+<h4>
+<a id="le-package-agent" class="anchor" href="#le-package-agent" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Le package "agent"</h4>
+
+<p>Le package "agent" contient le code de trois agents (<code>Market.java</code>,
+<code>Bidder.java</code>,<code>Seller.java</code>) matérialisant l'implémentation des trois rôles (Marché, Preneur, Vendeur) définis dans le protocole FishMarket. Aussi à chaque agent est associé un comportement spécifique (Behaviour) en fonction des différentes étapes du déroulement du protocole que nous avons défini dans la classe <code>FishMarketProtocol</code>.
+Nous avons implémenté ces comportements par un héritage de la classe 
+<code>FSMBehaviour</code> fournie par la librairie <code>jade.core.behaviours.FSMBehaviour</code>, nous permettant ainsi de representer le comportement de chaque agent par une machine à état. Le tableau suivant fait une synthèse des différents comportement des agents en fonction de l'étape du deroulement du protocole.</p>
+
+<table>
+<thead>
+<tr>
+<th align="center"></th>
+<th align="center">Auction creation</th>
+<th align="center">Handshake</th>
+<th align="center">Auction in progress</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">MarketFSMBehaviour</td>
+<td align="center">X</td>
+<td align="center">X</td>
+<td align="center">X</td>
+</tr>
+<tr>
+<td align="center">BidderFSMBehaviour</td>
+<td align="center">0</td>
+<td align="center">X</td>
+<td align="center">X</td>
+</tr>
+<tr>
+<td align="center">SellerFSMBehaviour</td>
+<td align="center">X</td>
+<td align="center">0</td>
+<td align="center">X</td>
+</tr>
+</tbody>
+</table>
+
+<p>En effet l'agent <code>Market</code> est au centre de la gestion de ce protocole: il constitue un lien primordial entre l'agent <code>Bidder</code> et l'agent <code>Seller</code>.</p>
+
+<h4>
+<a id="le-package-gui" class="anchor" href="#le-package-gui" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Le package "gui"</h4>
+
+<p>On y trouvera dans ce package, l'implémentation des interfaces graphiques distinctes java SWING des différents agents (<code>MarketGui</code>, <code>BidderGui</code>, 
+<code>SellerGui</code>).</p>
+
+<h3>
+<a id="directives-dexécution-sous-eclipse" class="anchor" href="#directives-dex%C3%A9cution-sous-eclipse" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Directives d'exécution (Sous Eclipse)</h3>
+
+<p>Ouvrir le projet dans Eclipse, puis :</p>
+
+<ul>
+<li>Faire <code>Run &gt; Run Configuration &gt; Java Application &gt; New</code>. On arrive sur une fenêtre ouverte sur l'onglet <code>Main</code>
+</li>
+<li>Dans le champs <code>Name</code> donner un nom à la configuration <code>FishMarket_Config</code>par exemple</li>
+<li>Dans le champs <code>Main class</code> saisir <code>jade.Boot</code>
+</li>
+<li>Ensuite, aller à l'onglet <code>Arguments</code> puis saisir dans le champ 
+<code>Program arguments</code> saisir le code suivant par exemple :</li>
+</ul>
+
+<pre><code>-gui "Marche_de_Hyeres:agent.market.Market;
+      Vendeur_Alpha:agent.seller.Seller;
+      Vendeur_Beta:agent.seller.Seller;
+      Annie:agent.bidder.Bidder(Vendeur_Beta);
+      Estaing:agent.bidder.Bidder(Vendeur_Beta);
+      Ayous:agent.bidder.Bidder(Vendeur_Alpha)"
+</code></pre>
+
+<p>Il s'agit ici du lancement d'un agent <code>Market</code> nommé <code>Marche_de_Hyeres</code>, de deux agents <code>Seller</code> <code>Vendeur_Alpha</code> et <code>Vendeur_Beta</code> et de trois agents <code>Bidder</code>. On precise pour chaque agent Preneur l'agent Vendeur auquel il s'abonnera. ici <code>Annie</code> et <code>Estaing</code> vont s'abonner à <code>Vendeur_Beta</code> et 
+<code>Ayous</code> le sera à <code>Vendeur_Alpha</code>.</p>
+
+<ol>
+<li>Enfin, <code>Apply</code> et <code>Run</code>.</li>
+</ol>
+
+<p><img src="http://www.revolunet.com/static/parisjs8/img/logo-revolunet-carre.jpg" alt="revolunet logo" title="revolunet logo"></p>
+
+<h3>
+<a id="comportement-des-différents-agents--spécification-par-diagrammes-détats" class="anchor" href="#comportement-des-diff%C3%A9rents-agents--sp%C3%A9cification-par-diagrammes-d%C3%A9tats" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Comportement des différents Agents : Spécification par diagrammes d'états</h3>
+
+<h4>
+<a id="agent-market" class="anchor" href="#agent-market" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Agent Market</h4>
+
+<h4>
+<a id="agent-bidder" class="anchor" href="#agent-bidder" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Agent Bidder</h4>
+
+<h4>
+<a id="agent-seller" class="anchor" href="#agent-seller" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Agent Seller</h4>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Fondement des Systèmes Multi-Agent maintained by <a href="https://github.com/NephtysOrg">NephtysOrg</a></p>
+        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
