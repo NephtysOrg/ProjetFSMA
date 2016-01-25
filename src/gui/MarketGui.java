@@ -15,8 +15,8 @@ public class MarketGui extends JFrame {
     private Market myAgent;
     private JTable tableView;
     private MarketTableModel tableViewModel;
-    public static final int DEFAULT_WIDTH = 700;
-    public static final int DEFAULT_HEIGHT = 500;
+    public static final int DEFAULT_WIDTH = 600;
+    public static final int DEFAULT_HEIGHT = 400;
     private static final long serialVersionUID = 1837117931407701695L;
 
     public MarketGui(Market myAgent) {

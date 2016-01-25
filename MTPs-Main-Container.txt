@@ -1,1 +1,1 @@
-http://scinfe178.univ-pau.fr:7778/acc
+http://Debian-Aspire-5733:7778/acc

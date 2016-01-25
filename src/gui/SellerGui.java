@@ -45,8 +45,8 @@ public class SellerGui extends JFrame implements ActionListener {
     private JButton createButton;
     private JButton startButton;
     private JButton cancelButton;
-    public static final int DEFAULT_WIDTH = 700;
-    public static final int DEFAULT_HEIGHT = 450;
+    public static final int DEFAULT_WIDTH = 600;
+    public static final int DEFAULT_HEIGHT = 350;
     private static final String CREATE_BUTTON_ACTION_COMMAND = "CREATE_BUTTON_ACTION_COMMAND";
     private static final String CANCEL_BUTTON_ACTION_COMMAND = "CANCEL_BUTTON_ACTION_COMMAND";
     private static final String START_BUTTON_ACTION_COMMAND = "START_BUTTON_ACTION_COMMAND";
